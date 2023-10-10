@@ -1,4 +1,4 @@
-package com.sparrow.core;
+package com.sparrow.client;
 
 /**
  * @author 985492783@qq.com

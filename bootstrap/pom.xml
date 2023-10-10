@@ -18,10 +18,6 @@
     </properties>
     
     <dependencies>
-        <dependency>
-            <groupId>com.sparrow</groupId>
-            <artifactId>sparrow-common</artifactId>
-        </dependency>
     </dependencies>
 
     <build>

@@ -1,4 +1,4 @@
-package com.sparrow.core.executor;
+package com.sparrow.client.executor;
 
 import java.util.concurrent.ThreadPoolExecutor;
 

@@ -20,6 +20,16 @@ public class PreMain {
     private static void premain(String args, Instrumentation instrumentation) {
         agentLog(instrumentation);
         agentThreadPool(instrumentation);
+        init();
+    }
+    
+    private static void init() {
+        try {
+            Class.forName("com.sparrow.client.executor.ExecutorWrapperFactory");
+            System.out.println("agent success!");
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
     }
     
     private static void agentThreadPool(Instrumentation instrumentation) {

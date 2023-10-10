@@ -1,7 +1,7 @@
 package com.sparrow.advice.logger;
 
 import ch.qos.logback.classic.spi.LoggingEvent;
-import com.sparrow.core.TraceCache;
+import com.sparrow.client.TraceCache;
 import net.bytebuddy.asm.Advice;
 
 import java.lang.reflect.Field;

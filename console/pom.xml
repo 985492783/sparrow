@@ -23,4 +23,14 @@
             <artifactId>sparrow-core</artifactId>
         </dependency>
     </dependencies>
+    
+    <build>
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <!-- 启用过滤器，过滤器会解析需要过滤的的资源文件，将其中的变量替换成真实的值 -->
+                <filtering>true</filtering>
+            </resource>
+        </resources>
+    </build>
 </project>

@@ -1,0 +1,8 @@
+spring:
+  application:
+    name: sparrow-console
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
+project:
+  version: @project.version@

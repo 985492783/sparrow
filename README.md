@@ -5,7 +5,7 @@
 
 `sparrow-common` 公共包
 
-`sparrow-bootstrap` bootstrap包-->common  
+`sparrow-bootstrap` bootstrap包 
 `sparrow-client` 客户端-->bootstrap  
 `sparrow-agent` agent包-->client  
 `sparrow-spring-boot-starter` dubbo,nacos自动装配-->client
