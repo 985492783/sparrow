@@ -1,30 +1,53 @@
 package com.sparrow.core.auth;
 
-import org.springframework.boot.web.servlet.FilterRegistrationBean;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping;
+import com.sparrow.core.utils.StringUtils;
+import org.springframework.boot.context.properties.ConfigurationProperties;
+
+import javax.servlet.http.HttpServletRequest;
 
 /**
  * @author 985492783@qq.com
- * @date 2023/10/10 13:18
+ * @date 2023/10/10 23:28
  */
-@Configuration
+@ConfigurationProperties(prefix = "sparrow.auth")
 public class AuthConfig {
     
-    @Bean
-    public FilterRegistrationBean<AuthFilter> authFilterRegistration(AuthFilter authFilter) {
-        FilterRegistrationBean<AuthFilter> registration = new FilterRegistrationBean<>();
-        registration.setFilter(authFilter);
-        registration.addUrlPatterns("/*");
-        registration.setName("authFilter");
-        registration.setOrder(0);
-        
-        return registration;
+    private boolean enabled = false;
+    
+    private String username = "sparrow";
+    
+    private String password = "sparrow";
+    
+    public boolean isEnabled() {
+        return enabled;
     }
     
-    @Bean
-    public AuthFilter authFilter(RequestMappingHandlerMapping requestMappingHandlerMapping) {
-        return new AuthFilter(requestMappingHandlerMapping);
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
+    }
+    
+    public String getUsername() {
+        return username;
+    }
+    
+    public void setUsername(String username) {
+        this.username = username;
+    }
+    
+    public String getPassword() {
+        return password;
+    }
+    
+    public void setPassword(String password) {
+        this.password = password;
+    }
+    
+    public boolean login(HttpServletRequest req) {
+        String user = req.getParameter("username");
+        String pwd = req.getParameter("password");
+        if (StringUtils.isEmpty(user) || StringUtils.isEmpty(pwd)) {
+            return false;
+        }
+        return user.equals(this.username) && pwd.equals(this.password);
     }
 }

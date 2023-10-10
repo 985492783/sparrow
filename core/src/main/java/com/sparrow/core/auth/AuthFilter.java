@@ -1,6 +1,8 @@
 package com.sparrow.core.auth;
 
 import com.sparrow.core.annotation.Secured;
+import com.sparrow.exception.AccessException;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.HandlerExecutionChain;
 import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping;
@@ -23,8 +25,11 @@ public class AuthFilter implements Filter {
     
     private final RequestMappingHandlerMapping handlerMapping;
     
-    public AuthFilter(RequestMappingHandlerMapping handlerMapping) {
+    private AuthConfig authConfig;
+    
+    public AuthFilter(RequestMappingHandlerMapping handlerMapping, AuthConfig authConfig) {
         this.handlerMapping = handlerMapping;
+        this.authConfig = authConfig;
     }
     
     @Override
@@ -33,6 +38,10 @@ public class AuthFilter implements Filter {
         HttpServletRequest req = (HttpServletRequest) request;
         HttpServletResponse resp = (HttpServletResponse) response;
         try {
+            if (!authConfig.isEnabled()) {
+                chain.doFilter(request, response);
+                return;
+            }
             HandlerExecutionChain executionChain = handlerMapping.getHandler(req);
             if (executionChain == null) {
                 chain.doFilter(request, response);
@@ -41,9 +50,13 @@ public class AuthFilter implements Filter {
             HandlerMethod handler = (HandlerMethod) executionChain.getHandler();
             Method method = handler.getMethod();
             if (method.isAnnotationPresent(Secured.class)) {
-                
+                if (!authConfig.login(req)) {
+                    throw new AccessException("登录失败");
+                }
             }
             chain.doFilter(request, response);
+        } catch (AccessException e) {
+            resp.sendError(HttpStatus.FORBIDDEN.value(), "auth fail!");
         } catch (Exception e) {
             chain.doFilter(request, response);
         }
