@@ -4,6 +4,8 @@ import ch.qos.logback.classic.spi.ILoggingEvent;
 import com.sparrow.advice.executor.ThreadPoolExecutorConstructorAdvice;
 import com.sparrow.advice.executor.ThreadPoolExecutorDestroyAdvice;
 import com.sparrow.advice.logger.LoggerGatherAdvice;
+import com.sparrow.client.SparrowClient;
+import com.sparrow.client.config.SparrowConfig;
 import net.bytebuddy.agent.builder.AgentBuilder;
 import net.bytebuddy.asm.Advice;
 import net.bytebuddy.matcher.ElementMatchers;
@@ -17,13 +19,23 @@ import java.util.concurrent.ThreadPoolExecutor;
  */
 public class PreMain {
     
+    private static final SparrowConfig sparrowConfig = new SparrowConfig();
+    
     private static void premain(String args, Instrumentation instrumentation) {
-        agentLog(instrumentation);
-        agentThreadPool(instrumentation);
-        init();
+        sparrowConfig.parserConfig(args);
+        if (sparrowConfig.getLogEnabled()) {
+            agentLog(instrumentation);
+        }
+        if (sparrowConfig.getExecutorEnabled()) {
+            agentThreadPool(instrumentation);
+            initThreadPool();
+        }
+        SparrowClient.init(sparrowConfig);
     }
     
-    private static void init() {
+    
+    
+    private static void initThreadPool() {
         try {
             Class.forName("com.sparrow.client.executor.ExecutorWrapperFactory");
             System.out.println("agent success!");
@@ -33,6 +45,7 @@ public class PreMain {
     }
     
     private static void agentThreadPool(Instrumentation instrumentation) {
+        System.out.println("threadPool agent start!");
         new AgentBuilder.Default().disableClassFormatChanges()
                 //默认是不对bootstrap类加载器加载的对象instrumentation，忽略某个type后，就可以了
                 .ignore(ElementMatchers.not(ElementMatchers.hasSuperType(ElementMatchers.is(ThreadPoolExecutor.class))))
@@ -48,6 +61,7 @@ public class PreMain {
     }
     
     private static void agentLog(Instrumentation instrumentation) {
+        System.out.println("log agent start!");
         new AgentBuilder.Default().type(
                 ElementMatchers.hasSuperType(ElementMatchers.namedOneOf(ILoggingEvent.class.getName()))
                         .and(ElementMatchers.not(ElementMatchers.isInterface()))).transform(
