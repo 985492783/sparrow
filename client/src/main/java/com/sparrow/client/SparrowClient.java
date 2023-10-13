@@ -16,28 +16,31 @@ import java.net.InetAddress;
  */
 public class SparrowClient {
     
-    private static SparrowClient INSTANCE;
     private final SparrowConfig sparrowConfig;
     
     public SparrowClient(SparrowConfig sparrowConfig) {
         this.sparrowConfig = sparrowConfig;
     }
     
-    public void register() {
+    public void register(String host) {
+        if (sparrowConfig.getExecutorEnabled()) {
+            initThreadPool();
+        }
         InetAddress inetAddress = NetUtil.getLocalhost();
         String ip = inetAddress.getHostAddress();
         InstanceDO instanceDO = new InstanceDO(sparrowConfig.getName(), ip);
-        String content = HttpUtil.post(sparrowConfig.getSparrow() + Constants.Url.SPARROW_V1_REGISTER,
-                JSONUtil.toJsonStr(instanceDO));
+        String content = HttpUtil.post(host + Constants.Url.SPARROW_V1_REGISTER, JSONUtil.toJsonStr(instanceDO));
         Response<String> response = JSONUtil.toBean(content, Response.class);
         System.out.println("client register success, id = " + response.getData() + "!");
     }
     
-    public static void init(SparrowConfig sparrowConfig) {
-        SparrowClient.INSTANCE = new SparrowClient(sparrowConfig);
+    private static void initThreadPool() {
+        try {
+            Class.forName("com.sparrow.client.executor.ExecutorWrapperFactory");
+            System.out.println("agent success!");
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
     }
     
-    public static SparrowClient getInstance() {
-        return INSTANCE;
-    }
 }

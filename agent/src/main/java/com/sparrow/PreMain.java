@@ -19,28 +19,13 @@ import java.util.concurrent.ThreadPoolExecutor;
  */
 public class PreMain {
     
-    private static final SparrowConfig sparrowConfig = new SparrowConfig();
-    
     private static void premain(String args, Instrumentation instrumentation) {
-        sparrowConfig.parserConfig(args);
+        SparrowConfig sparrowConfig = SparrowConfig.parserConfig(args);
         if (sparrowConfig.getLogEnabled()) {
             agentLog(instrumentation);
         }
         if (sparrowConfig.getExecutorEnabled()) {
             agentThreadPool(instrumentation);
-            initThreadPool();
-        }
-        SparrowClient.init(sparrowConfig);
-    }
-    
-    
-    
-    private static void initThreadPool() {
-        try {
-            Class.forName("com.sparrow.client.executor.ExecutorWrapperFactory");
-            System.out.println("agent success!");
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
         }
     }
     
