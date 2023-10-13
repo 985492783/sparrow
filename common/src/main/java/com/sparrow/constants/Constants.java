@@ -18,6 +18,8 @@ public class Constants {
         public static final String SPARROW_V1 = SPARROW + "/v1";
     
         public static final String SPARROW_V1_REGISTER = SPARROW_V1 + "/register";
+        
+        public static final String EXECUTOR_V1_UPLOAD = SPARROW_V1 + "/executor/upload";
     }
     
     public static final String NULL = "";

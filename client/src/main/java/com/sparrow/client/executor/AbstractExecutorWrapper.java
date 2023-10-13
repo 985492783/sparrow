@@ -1,5 +1,7 @@
 package com.sparrow.client.executor;
 
+import com.sparrow.common.entity.ExecutorDataDO;
+
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
@@ -63,5 +65,10 @@ public abstract class AbstractExecutorWrapper {
     
     public long getKeepAliveTime() {
         return keepAliveTime;
+    }
+    
+    public ExecutorDataDO buildExecutorData() {
+        return new ExecutorDataDO().hashcode(hashCode).corePoolSize(corePoolSize).maximumPoolSize(maximumPoolSize)
+                .keepAliveTime(keepAliveTime).completedTaskCount(completedTaskCount);
     }
 }

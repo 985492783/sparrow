@@ -1,11 +1,10 @@
-package com.sparrow.controller.namging;
+package com.sparrow.controller;
 
 import com.sparrow.biz.InstanceManager;
 import com.sparrow.common.entity.InstanceDO;
 import com.sparrow.common.entity.Response;
 import com.sparrow.constants.Constants;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;

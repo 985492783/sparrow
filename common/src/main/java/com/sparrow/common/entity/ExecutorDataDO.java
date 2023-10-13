@@ -55,4 +55,29 @@ public class ExecutorDataDO {
     public void setKeepAliveTime(long keepAliveTime) {
         this.keepAliveTime = keepAliveTime;
     }
+    
+    public ExecutorDataDO hashcode(int hashcode) {
+        setHashcode(hashcode);
+        return this;
+    }
+    
+    public ExecutorDataDO completedTaskCount(long completedTaskCount) {
+        setCompletedTaskCount(completedTaskCount);
+        return this;
+    }
+    
+    public ExecutorDataDO corePoolSize(int corePoolSize) {
+        setCorePoolSize(corePoolSize);
+        return this;
+    }
+    
+    public ExecutorDataDO maximumPoolSize(int maximumPoolSize) {
+        setMaximumPoolSize(maximumPoolSize);
+        return this;
+    }
+    
+    public ExecutorDataDO keepAliveTime(long keepAliveTime) {
+        setKeepAliveTime(keepAliveTime);
+        return this;
+    }
 }
