@@ -1,5 +1,7 @@
 server:
   port: 8888
+  servlet:
+    context-path: /sparrow
 spring:
   application:
     name: sparrow-console
