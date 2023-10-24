@@ -3,10 +3,14 @@ package com.sparrow.biz.manager;
 import com.sparrow.biz.LogManager;
 import com.sparrow.common.entity.LogMessage;
 import com.sparrow.common.entity.LogMessageDO;
+import com.sparrow.common.entity.LogMessageQuery;
 import com.sparrow.convert.LogConvert;
 import com.sparrow.core.LogList;
+import com.sparrow.core.utils.Arrays;
+import com.sparrow.core.utils.StringUtils;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -30,5 +34,26 @@ public class LogMessageImpl implements LogManager {
         }
         logList.add(logMessage);
     }
+    
+    @Override
+    public List<LogMessage> query(LogMessageQuery logMessageQuery) {
+        String projectId = logMessageQuery.getProjectId();
+        LogList logList = logManager.get(projectId);
+        if (logList == null) {
+            return Arrays.newArrayList();
+        }
+        if (StringUtils.isEmpty(logMessageQuery.getPattern())) {
+            return logList.search(logMessageQuery.getStartTime(), logMessageQuery.getEndTime());
+        }
+        return logList.search(logMessageQuery.getStartTime(), logMessageQuery.getEndTime(),
+                logMessageQuery.getPattern());
+    }
+    
+    @Override
+    public boolean batchAdd(List<LogMessageDO> list) {
+        list.forEach(this::addLog);
+        return true;
+    }
+    
     
 }

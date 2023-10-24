@@ -6,7 +6,7 @@ package com.sparrow.common.entity;
  */
 public class ExecutorDataDO {
     
-    private int hashcode;
+    private int hashCode;
     
     private long completedTaskCount;
     
@@ -16,12 +16,16 @@ public class ExecutorDataDO {
     
     private long keepAliveTime;
     
-    public int getHashcode() {
-        return hashcode;
+    private int queueSize;
+    
+    private int remainingCapacity;
+    
+    public int getHashCode() {
+        return hashCode;
     }
     
-    public void setHashcode(int hashcode) {
-        this.hashcode = hashcode;
+    public void setHashCode(int hashCode) {
+        this.hashCode = hashCode;
     }
     
     public long getCompletedTaskCount() {
@@ -56,8 +60,24 @@ public class ExecutorDataDO {
         this.keepAliveTime = keepAliveTime;
     }
     
+    public int getQueueSize() {
+        return queueSize;
+    }
+    
+    public void setQueueSize(int queueSize) {
+        this.queueSize = queueSize;
+    }
+    
+    public int getRemainingCapacity() {
+        return remainingCapacity;
+    }
+    
+    public void setRemainingCapacity(int remainingCapacity) {
+        this.remainingCapacity = remainingCapacity;
+    }
+    
     public ExecutorDataDO hashcode(int hashcode) {
-        setHashcode(hashcode);
+        setHashCode(hashcode);
         return this;
     }
     
@@ -78,6 +98,16 @@ public class ExecutorDataDO {
     
     public ExecutorDataDO keepAliveTime(long keepAliveTime) {
         setKeepAliveTime(keepAliveTime);
+        return this;
+    }
+    
+    public ExecutorDataDO queueSize(int queueSize) {
+        setQueueSize(queueSize);
+        return this;
+    }
+    
+    public ExecutorDataDO remainingCapacity(int remainingCapacity) {
+        setRemainingCapacity(remainingCapacity);
         return this;
     }
 }

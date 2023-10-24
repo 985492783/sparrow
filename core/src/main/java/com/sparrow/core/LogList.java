@@ -92,7 +92,8 @@ public class LogList {
     }
     
     private static class Tree {
-        
+        private final Long MAX_LONG = Long.MAX_VALUE;
+        private final Long ZERO_LONG = 0L;
         private final TreeMap<Long, Node> floorMap;
         
         /**
@@ -119,6 +120,12 @@ public class LogList {
         public List<LogMessage> search(Long startTime, Long endTime) {
             try {
                 readLock.lock();
+                if (startTime == null) {
+                    startTime = ZERO_LONG;
+                }
+                if (endTime == null) {
+                    endTime = MAX_LONG;
+                }
                 Long start = startTime;
                 if (!higherMap.containsKey(start)) {
                     start = higherMap.higherKey(start);

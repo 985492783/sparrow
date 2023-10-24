@@ -1,6 +1,10 @@
 package com.sparrow.biz;
 
+import com.sparrow.common.entity.LogMessage;
 import com.sparrow.common.entity.LogMessageDO;
+import com.sparrow.common.entity.LogMessageQuery;
+
+import java.util.List;
 
 /**
  * @author 985492783@qq.com
@@ -9,4 +13,8 @@ import com.sparrow.common.entity.LogMessageDO;
 public interface LogManager {
     
     void addLog(LogMessageDO logMessageDO);
+    
+    List<LogMessage> query(LogMessageQuery logMessageQuery);
+    
+    boolean batchAdd(List<LogMessageDO> list);
 }

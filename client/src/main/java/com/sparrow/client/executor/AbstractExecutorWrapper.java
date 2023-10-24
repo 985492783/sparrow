@@ -25,12 +25,18 @@ public abstract class AbstractExecutorWrapper {
     
     private long keepAliveTime;
     
+    private int queueSize;
+    
+    private int remainingCapacity;
+    
     public AbstractExecutorWrapper(ThreadPoolExecutor threadPoolExecutor) {
         this.threadPoolExecutor = threadPoolExecutor;
         this.hashCode = threadPoolExecutor.hashCode();
         this.className = threadPoolExecutor.getClass().getName();
         this.completedTaskCount = threadPoolExecutor.getCompletedTaskCount();
         this.corePoolSize = threadPoolExecutor.getCorePoolSize();
+        this.queueSize = threadPoolExecutor.getQueue().size();
+        this.remainingCapacity = threadPoolExecutor.getQueue().remainingCapacity();
         this.maximumPoolSize = threadPoolExecutor.getMaximumPoolSize();
         this.keepAliveTime = threadPoolExecutor.getKeepAliveTime(TimeUnit.MILLISECONDS);
     }
@@ -67,8 +73,17 @@ public abstract class AbstractExecutorWrapper {
         return keepAliveTime;
     }
     
+    public int getQueueSize() {
+        return queueSize;
+    }
+    
+    public int getRemainingCapacity() {
+        return remainingCapacity;
+    }
+    
     public ExecutorDataDO buildExecutorData() {
         return new ExecutorDataDO().hashcode(hashCode).corePoolSize(corePoolSize).maximumPoolSize(maximumPoolSize)
-                .keepAliveTime(keepAliveTime).completedTaskCount(completedTaskCount);
+                .keepAliveTime(keepAliveTime).completedTaskCount(completedTaskCount).queueSize(queueSize)
+                .remainingCapacity(remainingCapacity);
     }
 }
