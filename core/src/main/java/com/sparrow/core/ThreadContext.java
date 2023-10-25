@@ -1,6 +1,5 @@
 package com.sparrow.core;
 
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.concurrent.Semaphore;
 
@@ -10,17 +9,17 @@ import java.util.concurrent.Semaphore;
  */
 public class ThreadContext {
     
-    private ContextData<Long> completedTaskCounts;
+    private ContextData<Long> completedTaskCounts = new ContextData<>(1000);
     
-    private ContextData<Integer> corePoolSizes;
+    private ContextData<Integer> corePoolSizes = new ContextData<>(1000);
     
-    private ContextData<Integer> maximumPoolSizes;
+    private ContextData<Integer> maximumPoolSizes = new ContextData<>(1000);
     
-    private ContextData<Long> keepAliveTimes;
+    private ContextData<Long> keepAliveTimes = new ContextData<>(1000);
     
-    private ContextData<Integer> queueSizes;
+    private ContextData<Integer> queueSizes = new ContextData<>(1000);
     
-    private ContextData<Integer> remainingCapacities;
+    private ContextData<Integer> remainingCapacities = new ContextData<>(1000);
     
     public ContextData<Long> getCompletedTaskCounts() {
         return completedTaskCounts;
@@ -72,17 +71,21 @@ public class ThreadContext {
     
     public static class ContextData<T> extends LinkedList<T> {
         
-        private int capacity;
-        
+        private final int capacity;
+    
+        public ContextData(int capacity) {
+            this.capacity = capacity;
+        }
+    
         private Semaphore semaphore = new Semaphore(1);
         
         @Override
         public boolean add(T t) {
             try {
                 semaphore.acquire();
-                super.add(t);
+                super.addFirst(t);
                 if (this.size() > capacity) {
-                    this.removeFirst();
+                    this.removeLast();
                 }
                 return true;
             } catch (InterruptedException ignored) {

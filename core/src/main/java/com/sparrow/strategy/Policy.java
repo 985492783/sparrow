@@ -1,4 +1,4 @@
-package com.sparrow.rule;
+package com.sparrow.strategy;
 
 import com.sparrow.core.ThreadEndPoint;
 

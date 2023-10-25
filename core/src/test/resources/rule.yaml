@@ -1,0 +1,6 @@
+ruleType: QUEUE_FULL
+frequency: 5
+policy:
+  policyType: ADD_MAX_THREAD_COUNT
+  maximumCount: 20
+  addCount: 2

@@ -1,6 +1,7 @@
-package com.sparrow.rule;
+package com.sparrow.strategy;
 
 import com.sparrow.core.ThreadContext;
+import com.sparrow.exception.RuleIllegalException;
 
 /**
  * 规则->yaml。
@@ -10,7 +11,9 @@ import com.sparrow.core.ThreadContext;
  */
 public interface Rule {
     
-    void checkRule();
+    RuleEnum getType();
+    
+    void checkRule() throws RuleIllegalException;
     
     boolean trigger(ThreadContext threadContext);
     
