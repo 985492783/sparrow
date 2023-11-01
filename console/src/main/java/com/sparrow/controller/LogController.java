@@ -7,9 +7,9 @@ import com.sparrow.common.entity.LogMessageQuery;
 import com.sparrow.common.entity.Page;
 import com.sparrow.common.entity.PageParam;
 import com.sparrow.common.entity.Response;
+import com.sparrow.constants.Constants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -19,13 +19,12 @@ import java.util.List;
  * @date 2023/10/24 0:00
  */
 @RestController
-@RequestMapping("/log")
 public class LogController {
     
     @Autowired
     private LogManager logManager;
     
-    @PostMapping("/query")
+    @PostMapping(Constants.Url.LOG_V1 + "/query")
     public Page<LogMessage> page(PageParam<LogMessageQuery> pageParam) {
         List<LogMessage> logMessages = logManager.query(pageParam.getModel());
         Page<LogMessage> page = Page.of(logMessages.size(), pageParam.getPageSize(), pageParam.getPageNum());
@@ -34,7 +33,7 @@ public class LogController {
         return page;
     }
     
-    @PostMapping
+    @PostMapping(Constants.Url.LOG_V1_UPLOAD)
     public Response<Boolean> add(List<LogMessageDO> list) {
         logManager.batchAdd(list);
         return Response.success(true);

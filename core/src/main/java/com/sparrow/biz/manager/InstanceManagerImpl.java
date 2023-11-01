@@ -7,6 +7,8 @@ import com.sparrow.convert.InstanceConvert;
 import com.sparrow.core.factory.InstanceRegistry;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 /**
  * @author 985492783@qq.com
  * @date 2023/10/12 22:50
@@ -26,5 +28,10 @@ public class InstanceManagerImpl implements InstanceManager {
     public String register(InstanceDO instanceDO) {
         Instance instance = convert.map(instanceDO);
         return instanceRegistry.register(instance);
+    }
+    
+    @Override
+    public List<Instance> query() {
+        return instanceRegistry.getInstances();
     }
 }

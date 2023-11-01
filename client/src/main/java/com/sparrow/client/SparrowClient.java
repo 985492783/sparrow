@@ -36,7 +36,7 @@ public class SparrowClient {
         InetAddress inetAddress = NetUtil.getLocalhost();
         String ip = inetAddress.getHostAddress();
         InstanceDO instanceDO = new InstanceDO(sparrowConfig.getName(), ip);
-        String content = HttpUtil.post(host + Constants.Url.SPARROW_V1_REGISTER, JSONUtil.toJsonStr(instanceDO));
+        String content = HttpUtil.post(host + Constants.Url.INSTANCE_V1_REGISTER, JSONUtil.toJsonStr(instanceDO));
         Response<String> response = JSONUtil.toBean(content, Response.class);
         sparrowConfig.setId(response.getData());
         

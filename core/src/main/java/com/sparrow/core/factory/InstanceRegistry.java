@@ -4,8 +4,11 @@ import cn.hutool.core.util.IdUtil;
 import com.sparrow.common.entity.Instance;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.stream.Collectors;
 
 /**
  * 实例
@@ -25,6 +28,11 @@ public class InstanceRegistry {
     
     public Instance buildInstance(Instance instance) {
         instance.setId(IdUtil.getSnowflakeNextIdStr());
+        instance.setDisplayName(instance.getServerName());
         return instance;
+    }
+    
+    public List<Instance> getInstances() {
+        return new ArrayList<>(instanceMap.values());
     }
 }

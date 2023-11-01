@@ -7,13 +7,24 @@ import java.util.Objects;
  * @date 2023/10/12 22:37
  */
 public class Instance {
+    
     private String id;
     
     private String serverName;
     
+    private String displayName;
+    
     private String ip;
     
     private boolean alive;
+    
+    public String getDisplayName() {
+        return displayName;
+    }
+    
+    public void setDisplayName(String displayName) {
+        this.displayName = displayName;
+    }
     
     public boolean isAlive() {
         return alive;
