@@ -4,6 +4,7 @@ import ch.qos.logback.classic.spi.ILoggingEvent;
 import ch.qos.logback.classic.spi.LoggingEvent;
 import ch.qos.logback.core.encoder.Encoder;
 import ch.qos.logback.core.encoder.LayoutWrappingEncoder;
+import com.sparrow.client.LogCache;
 import com.sparrow.client.TraceCache;
 import net.bytebuddy.asm.Advice;
 
@@ -16,7 +17,6 @@ import java.nio.charset.StandardCharsets;
  */
 public class LoggerGatherAdvice {
     
-    public static LayoutWrappingEncoder<ILoggingEvent> encoder = new LayoutWrappingEncoder<>();
     @Advice.OnMethodEnter
     public static void changeMessage(@Advice.This Object obj) {
         LoggingEvent loggingEvent = (LoggingEvent) obj;
@@ -32,8 +32,10 @@ public class LoggerGatherAdvice {
     @Advice.OnMethodExit
     public static void gatherMessage(@Advice.This Object obj) {
         try {
-            byte[] encode = encoder.encode((ILoggingEvent) obj);
-            System.out.println("gather" + new String(encode, StandardCharsets.UTF_8));
+            ILoggingEvent loggingEvent = (ILoggingEvent) obj;
+            long timeStamp = loggingEvent.getTimeStamp();
+            byte[] encode = LoggerConfigureAdvice.encoder.encode(loggingEvent);
+            LogCache.addMessage(timeStamp, new String(encode, StandardCharsets.UTF_8));
         } catch (Exception e) {
             e.printStackTrace();
         }

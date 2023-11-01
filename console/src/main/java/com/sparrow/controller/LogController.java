@@ -10,6 +10,7 @@ import com.sparrow.common.entity.Response;
 import com.sparrow.constants.Constants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -25,7 +26,7 @@ public class LogController {
     private LogManager logManager;
     
     @PostMapping(Constants.Url.LOG_V1 + "/query")
-    public Page<LogMessage> page(PageParam<LogMessageQuery> pageParam) {
+    public Page<LogMessage> page(@RequestBody PageParam<LogMessageQuery> pageParam) {
         List<LogMessage> logMessages = logManager.query(pageParam.getModel());
         Page<LogMessage> page = Page.of(logMessages.size(), pageParam.getPageSize(), pageParam.getPageNum());
         page.setData(logMessages.subList(page.getOffset(),
@@ -34,7 +35,7 @@ public class LogController {
     }
     
     @PostMapping(Constants.Url.LOG_V1_UPLOAD)
-    public Response<Boolean> add(List<LogMessageDO> list) {
+    public Response<Boolean> add(@RequestBody List<LogMessageDO> list) {
         logManager.batchAdd(list);
         return Response.success(true);
     }

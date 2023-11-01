@@ -12,6 +12,8 @@ import java.util.List;
  */
 public interface LogManager {
     
+    void create(String projectId);
+    
     void addLog(LogMessageDO logMessageDO);
     
     List<LogMessage> query(LogMessageQuery logMessageQuery);

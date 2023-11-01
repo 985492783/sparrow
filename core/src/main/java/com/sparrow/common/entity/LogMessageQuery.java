@@ -12,10 +12,10 @@ public class LogMessageQuery {
     private String projectId;
     
     @JsonSerialize(using = StringSerializer.class)
-    private long startTime;
+    private Long startTime;
     
     @JsonSerialize(using = StringSerializer.class)
-    private long endTime;
+    private Long endTime;
     
     private String pattern;
     
@@ -27,19 +27,19 @@ public class LogMessageQuery {
         this.projectId = projectId;
     }
     
-    public long getStartTime() {
+    public Long getStartTime() {
         return startTime;
     }
     
-    public void setStartTime(long startTime) {
+    public void setStartTime(Long startTime) {
         this.startTime = startTime;
     }
     
-    public long getEndTime() {
+    public Long getEndTime() {
         return endTime;
     }
     
-    public void setEndTime(long endTime) {
+    public void setEndTime(Long endTime) {
         this.endTime = endTime;
     }
     

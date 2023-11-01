@@ -12,6 +12,14 @@ public class LogMessageDO {
     
     private long timestamp;
     
+    public LogMessageDO() {
+    }
+    
+    public LogMessageDO(String logger, long timestamp) {
+        this.logger = logger;
+        this.timestamp = timestamp;
+    }
+    
     public String getProjectId() {
         return projectId;
     }

@@ -26,6 +26,11 @@ public class LogMessageImpl implements LogManager {
     private final Map<String, LogList> logManager = new ConcurrentHashMap<>();
     
     @Override
+    public void create(String projectId) {
+        logManager.computeIfAbsent(projectId, (k) -> new LogList());
+    }
+    
+    @Override
     public void addLog(LogMessageDO logMessageDO) {
         LogMessage logMessage = logConvert.map(logMessageDO);
         LogList logList = logManager.get(logMessageDO.getProjectId());

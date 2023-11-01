@@ -1,10 +1,11 @@
 package com.sparrow;
 
+import ch.qos.logback.classic.spi.Configurator;
 import ch.qos.logback.classic.spi.ILoggingEvent;
 import com.sparrow.advice.executor.ThreadPoolExecutorConstructorAdvice;
 import com.sparrow.advice.executor.ThreadPoolExecutorDestroyAdvice;
+import com.sparrow.advice.logger.LoggerConfigureAdvice;
 import com.sparrow.advice.logger.LoggerGatherAdvice;
-import com.sparrow.client.SparrowClient;
 import com.sparrow.client.config.SparrowConfig;
 import net.bytebuddy.agent.builder.AgentBuilder;
 import net.bytebuddy.asm.Advice;
@@ -53,5 +54,10 @@ public class PreMain {
                 (builder, typeDescription, classLoader, javaModule) -> builder.method(
                                 ElementMatchers.named("prepareForDeferredProcessing"))
                         .intercept(Advice.to(LoggerGatherAdvice.class))).installOn(instrumentation);
+        new AgentBuilder.Default().type(
+                ElementMatchers.hasSuperType(ElementMatchers.namedOneOf(Configurator.class.getName()))).transform(
+                        ((builder, typeDescription, classLoader, javaModule) -> builder.method(
+                                ElementMatchers.named("configure")).intercept(Advice.to(LoggerConfigureAdvice.class))))
+                .installOn(instrumentation);
     }
 }
