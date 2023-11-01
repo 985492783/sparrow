@@ -6,6 +6,7 @@ import com.sparrow.common.entity.InstanceDO;
 import com.sparrow.common.entity.Response;
 import com.sparrow.constants.Constants;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -28,7 +29,7 @@ public class NamingController {
         return Response.success(id);
     }
     
-    @PostMapping(Constants.Url.INSTANCE_V1_QUERY)
+    @GetMapping(Constants.Url.INSTANCE_V1_QUERY)
     public Response<List<Instance>> query() {
         return Response.success(instanceManager.query());
     }
