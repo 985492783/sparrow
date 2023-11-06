@@ -13,5 +13,5 @@ public interface InstanceManager {
     
     String register(InstanceDO instanceDO);
     
-    List<Instance> query();
+    List<Instance> query(String key, String value);
 }

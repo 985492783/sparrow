@@ -1,5 +1,6 @@
 package com.sparrow.common.entity;
 
+import java.util.Map;
 import java.util.Objects;
 
 /**
@@ -17,6 +18,23 @@ public class Instance {
     private String ip;
     
     private boolean alive;
+    
+    private Map<String, String> params;
+    
+    public Map<String, String> getParams() {
+        return params;
+    }
+    
+    public String getParam(String key) {
+        if (params == null) {
+            return null;
+        }
+        return params.get(key);
+    }
+    
+    public void setParams(Map<String, String> params) {
+        this.params = params;
+    }
     
     public String getDisplayName() {
         return displayName;

@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -30,7 +31,8 @@ public class NamingController {
     }
     
     @GetMapping(Constants.Url.INSTANCE_V1_QUERY)
-    public Response<List<Instance>> query() {
-        return Response.success(instanceManager.query());
+    public Response<List<Instance>> query(@RequestParam(value = "key", required = false) String key,
+            @RequestParam(value = "value", required = false) String value) {
+        return Response.success(instanceManager.query(key, value));
     }
 }

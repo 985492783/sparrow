@@ -11,7 +11,14 @@ import java.util.Map;
  * @date 2023/10/12 23:39
  */
 public class SparrowConfig {
+    
     private static final SparrowConfig sparrowConfig = new SparrowConfig();
+    
+    public static final String LOG_ENABLED = "logEnabled";
+    
+    public static final String EXECUTOR_ENABLED = "executorEnabled";
+    
+    public static final String NAME = "name";
     
     private Boolean logEnabled = false;
     
@@ -41,9 +48,9 @@ public class SparrowConfig {
     }
     
     private void parserConfig(Map<String, String> params) {
-        setLogEnabled(Boolean.valueOf(params.getOrDefault("logEnabled", logEnabled.toString())));
-        setExecutorEnabled(Boolean.valueOf(params.getOrDefault("executorEnabled", executorEnabled.toString())));
-        setName(params.getOrDefault("name", RandomUtil.randomString(16)));
+        setLogEnabled(Boolean.valueOf(params.getOrDefault(LOG_ENABLED, logEnabled.toString())));
+        setExecutorEnabled(Boolean.valueOf(params.getOrDefault(EXECUTOR_ENABLED, executorEnabled.toString())));
+        setName(params.getOrDefault(NAME, RandomUtil.randomString(16)));
     }
     
     public static SparrowConfig getInstance() {

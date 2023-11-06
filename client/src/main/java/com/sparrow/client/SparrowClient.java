@@ -1,6 +1,5 @@
 package com.sparrow.client;
 
-import cn.hutool.core.net.NetUtil;
 import cn.hutool.http.HttpUtil;
 import cn.hutool.json.JSONUtil;
 import com.sparrow.client.config.SparrowConfig;
@@ -12,8 +11,8 @@ import com.sparrow.common.entity.InstanceDO;
 import com.sparrow.common.entity.LogMessageDO;
 import com.sparrow.common.entity.Response;
 import com.sparrow.constants.Constants;
+import com.sparrow.util.IpUtils;
 
-import java.net.InetAddress;
 import java.util.List;
 import java.util.Map;
 import java.util.Timer;
@@ -34,9 +33,7 @@ public class SparrowClient {
     
     public void register(String host) {
         sparrowConfig.setHost(host);
-        InetAddress inetAddress = NetUtil.getLocalhost();
-        String ip = inetAddress.getHostAddress();
-        InstanceDO instanceDO = new InstanceDO(sparrowConfig.getName(), ip);
+        InstanceDO instanceDO = buildInstance();
         String content = post(Constants.Url.INSTANCE_V1_REGISTER, instanceDO);
         Response<String> response = JSONUtil.toBean(content, Response.class);
         sparrowConfig.setId(response.getData());
@@ -47,6 +44,14 @@ public class SparrowClient {
         if (sparrowConfig.getLogEnabled()) {
             initLogger();
         }
+    }
+    
+    private InstanceDO buildInstance() {
+        String ip = IpUtils.getLocalIp4Address().getHostAddress();
+        InstanceDO instanceDO = new InstanceDO(sparrowConfig.getName(), ip);
+        instanceDO.put(SparrowConfig.LOG_ENABLED, sparrowConfig.getLogEnabled().toString());
+        instanceDO.put(SparrowConfig.EXECUTOR_ENABLED, sparrowConfig.getExecutorEnabled().toString());
+        return instanceDO;
     }
     
     private void initLogger() {

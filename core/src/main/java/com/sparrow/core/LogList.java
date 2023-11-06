@@ -137,11 +137,11 @@ public class LogList {
                 }
                 Node startNode = higherMap.get(start);
                 Node endNode = floorMap.get(end);
-                while (startNode != endNode) {
-                    list.add(startNode.item);
-                    startNode = startNode.next;
+                while (endNode != startNode) {
+                    list.add(endNode.item);
+                    endNode = endNode.prev;
                 }
-                list.add(endNode.item);
+                list.add(startNode.item);
                 return list;
             } finally {
                 readLock.unlock();

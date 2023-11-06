@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * @author 985492783@qq.com
@@ -38,7 +39,12 @@ public class InstanceManagerImpl implements InstanceManager {
     }
     
     @Override
-    public List<Instance> query() {
-        return instanceRegistry.getInstances();
+    public List<Instance> query(String key, String value) {
+        List<Instance> instances = instanceRegistry.getInstances();
+        if (key == null || value == null) {
+            return instances;
+        }
+        return instances.stream().filter((instance) -> value.equals(instance.getParam(key)))
+                .collect(Collectors.toList());
     }
 }
