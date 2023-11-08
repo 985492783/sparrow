@@ -1,6 +1,6 @@
 package com.sparrow.trace.condition;
 
-import com.sparrow.trace.config.SparrowConfiguration;
+import com.sparrow.trace.config.SparrowTraceConfiguration;
 import com.sparrow.trace.core.TraceBeanRegister;
 import org.springframework.context.annotation.Condition;
 import org.springframework.context.annotation.ConditionContext;
@@ -18,7 +18,7 @@ public class SparrowCondition implements Condition {
     
     @Override
     public boolean matches(ConditionContext context, AnnotatedTypeMetadata metadata) {
-        Set<String> list = context.getEnvironment().getProperty(SparrowConfiguration.PREFIX + ".protocols", Set.class, new HashSet());
+        Set<String> list = context.getEnvironment().getProperty(SparrowTraceConfiguration.PREFIX + ".protocols", Set.class, new HashSet());
         Set<Class<? extends TraceBeanRegister>> classList = new HashSet<>();
         for (String name : list) {
             try {

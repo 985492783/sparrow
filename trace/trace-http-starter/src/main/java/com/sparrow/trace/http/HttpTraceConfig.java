@@ -2,6 +2,7 @@ package com.sparrow.trace.http;
 
 import com.sparrow.client.SparrowClient;
 import com.sparrow.trace.condition.SparrowConditional;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -12,6 +13,7 @@ import org.springframework.context.annotation.Configuration;
  */
 @Configuration
 @SparrowConditional(HttpTraceFilter.class)
+@ConditionalOnBean(SparrowClient.class)
 public class HttpTraceConfig {
     
     @Bean
