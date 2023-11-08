@@ -79,3 +79,12 @@ SparrowClient instance=new SparrowClient(SparrowConfig.getInstance());
 <version>${lastest.version}</version>
 </dependency>
 ```
+配置
+```yaml
+sparrow:
+  trace:
+    protocols: com.sparrow.trace.http.HttpTraceFilter
+  client:
+    name: test-to-client
+    host: 127.0.0.1:8888
+```
