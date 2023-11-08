@@ -47,4 +47,15 @@ public class InstanceManagerImpl implements InstanceManager {
         return instances.stream().filter((instance) -> value.equals(instance.getParam(key)))
                 .collect(Collectors.toList());
     }
+    
+    @Override
+    public boolean deregister(InstanceDO instanceDO) {
+        Instance instance = convert.map(instanceDO);
+        Instance deregister = instanceRegistry.deregister(instance);
+        if (deregister == null) {
+            return false;
+        }
+        logManager.destroy(deregister.getId());
+        return true;
+    }
 }

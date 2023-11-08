@@ -25,6 +25,8 @@ public class Constants {
         
         public static final String INSTANCE_V1_REGISTER = INSTANCE_V1 + "/register";
         
+        public static final String INSTANCE_V1_DEREGISTER = INSTANCE_V1 + "/deregister";
+        
         public static final String INSTANCE_V1_QUERY = INSTANCE_V1 + "/query";
         
         public static final String EXECUTOR_V1_UPLOAD = SPARROW_V1 + "/executor/upload";

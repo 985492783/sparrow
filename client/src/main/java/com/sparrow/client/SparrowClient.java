@@ -1,5 +1,6 @@
 package com.sparrow.client;
 
+import cn.hutool.core.util.IdUtil;
 import cn.hutool.http.HttpUtil;
 import cn.hutool.json.JSONUtil;
 import com.sparrow.client.config.SparrowConfig;
@@ -27,17 +28,38 @@ public class SparrowClient {
     
     private final SparrowConfig sparrowConfig;
     
+    private boolean initialise = false;
+    
     public SparrowClient(SparrowConfig sparrowConfig) {
         this.sparrowConfig = sparrowConfig;
+        register();
+        buildHook();
     }
     
-    public void register(String host) {
-        sparrowConfig.setHost(host);
+    private void buildHook() {
+        Runtime.getRuntime().addShutdownHook(new Thread() {
+            @Override
+            public void run() {
+                deregister();
+            }
+        });
+    }
+    
+    public synchronized void deregister() {
+        InstanceDO instanceDO = buildInstance();
+        String content = post(Constants.Url.INSTANCE_V1_DEREGISTER, instanceDO);
+        this.initialise = false;
+    }
+    
+    public synchronized void register() {
+        if (this.initialise) {
+            return;
+        }
         InstanceDO instanceDO = buildInstance();
         String content = post(Constants.Url.INSTANCE_V1_REGISTER, instanceDO);
         Response<String> response = JSONUtil.toBean(content, Response.class);
         sparrowConfig.setId(response.getData());
-        
+        this.initialise = true;
         if (sparrowConfig.getExecutorEnabled()) {
             initThreadPool();
         }
@@ -47,7 +69,7 @@ public class SparrowClient {
     }
     
     private InstanceDO buildInstance() {
-        String ip = IpUtils.getLocalIp4Address().getHostAddress();
+        String ip = sparrowConfig.getIp();
         InstanceDO instanceDO = new InstanceDO(sparrowConfig.getName(), ip);
         instanceDO.put(SparrowConfig.LOG_ENABLED, sparrowConfig.getLogEnabled().toString());
         instanceDO.put(SparrowConfig.EXECUTOR_ENABLED, sparrowConfig.getExecutorEnabled().toString());
@@ -83,7 +105,19 @@ public class SparrowClient {
         }, 5000L, 5000L);
     }
     
-    public <T> String post(String url, T t) {
+    protected <T> String post(String url, T t) {
         return HttpUtil.post(sparrowConfig.getHost() + "/sparrow" + url, JSONUtil.toJsonStr(t));
     }
+    
+    public SparrowConfig getSparrowConfig() {
+        return sparrowConfig;
+    }
+    
+    public String getTraceId() {
+        if (this.initialise) {
+            return sparrowConfig.getId() + "." + IdUtil.getSnowflakeNextIdStr();
+        }
+        return IdUtil.getSnowflakeNextIdStr();
+    }
+    
 }

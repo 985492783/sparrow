@@ -35,4 +35,8 @@ public class InstanceRegistry {
     public List<Instance> getInstances() {
         return new ArrayList<>(instanceMap.values());
     }
+    
+    public Instance deregister(Instance instance) {
+        return instanceMap.remove(instance);
+    }
 }

@@ -19,4 +19,6 @@ public interface LogManager {
     List<LogMessage> query(LogMessageQuery logMessageQuery);
     
     boolean batchAdd(List<LogMessageDO> list);
+    
+    void destroy(String id);
 }

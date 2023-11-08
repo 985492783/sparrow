@@ -60,5 +60,10 @@ public class LogMessageImpl implements LogManager {
         return true;
     }
     
+    @Override
+    public void destroy(String id) {
+        logManager.remove(id);
+    }
+    
     
 }

@@ -30,6 +30,12 @@ public class NamingController {
         return Response.success(id);
     }
     
+    @PostMapping(Constants.Url.INSTANCE_V1_DEREGISTER)
+    public Response<Boolean> deregister(@RequestBody InstanceDO instanceDO) {
+        boolean deregister = instanceManager.deregister(instanceDO);
+        return Response.success(deregister);
+    }
+    
     @GetMapping(Constants.Url.INSTANCE_V1_QUERY)
     public Response<List<Instance>> query(@RequestParam(value = "key", required = false) String key,
             @RequestParam(value = "value", required = false) String value) {

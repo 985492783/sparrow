@@ -17,6 +17,9 @@
         <module>plugin</module>
         <module>agent</module>
         <module>bootstrap</module>
+        <module>trace</module>
+        <module>trace/trace-spring-boot-starter</module>
+        <module>trace/trace-http-starter</module>
     </modules>
     
     <properties>

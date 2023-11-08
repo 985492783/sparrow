@@ -1,6 +1,7 @@
 package com.sparrow.client.config;
 
 import cn.hutool.core.util.RandomUtil;
+import com.sparrow.util.IpUtils;
 import com.sparrow.util.StringUtils;
 
 import java.util.HashMap;
@@ -27,6 +28,8 @@ public class SparrowConfig {
     private String name;
     
     private String host;
+    
+    private String ip;
     
     private String id;
     
@@ -98,5 +101,16 @@ public class SparrowConfig {
     
     public void setId(String id) {
         this.id = id;
+    }
+    
+    public String getIp() {
+        if (ip == null) {
+            ip = IpUtils.getLocalIp4Address().getHostAddress();
+        }
+        return ip;
+    }
+    
+    public void setIp(String ip) {
+        this.ip = ip;
     }
 }
